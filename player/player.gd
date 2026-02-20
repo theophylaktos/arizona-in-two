@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var speed: int = 150
+var speed: int = Gamestate.playerSpeed
 
 func _ready() -> void:
 	pass
