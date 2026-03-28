@@ -17,14 +17,11 @@ extends CharacterBody2D
 ## How much damage the slime will cause upon player collision.
 @export var attack_damage: float = 30.0
 
-## The slime's starting health.
-@export var starting_health: float = 40.0
-
 ## The suffix used for idle animations in the [AnimatedSprite2D].
 @export var idle_animation_suffix: StringName = "_idle"
 
 ## The area to monitor for player chase interactions.
-@export var chase_area: Area2D
+@onready var chase_area : Area2D = $ChaseArea
 
 
 # Physics process variables
@@ -42,8 +39,6 @@ var target_angle_vector: Vector2
 ## Updated in [method _physics_process].
 var target_position_on_left := false
 
-## The slime's current health.
-var health := starting_health
 
 ## The player node.[br]
 ## Set when the player enters the [member chase_area], but resets when
@@ -60,8 +55,7 @@ var player_node: CharacterBody2D = null
 
 # Connect to the chase Area2D if it was set
 func _ready() -> void:
-	if chase_area:
-		chase_area.body_entered.connect(_on_area_2d_body_entered)
+	chase_area.body_entered.connect(_on_area_2d_body_entered)
 
 
 # NOTE: When the slime moves too far off screen, movement calculations are
@@ -110,20 +104,6 @@ func _physics_process(_delta: float) -> void:
 	
 	# Finalize movement
 	move_and_slide()
-
-
-## Decreases this slime's [member health] by [param damage_to_take] amount.[br]
-## If the health decreases to zero or is below zero, then the slime is killed.
-func damage(damage_to_take: float) -> void:
-	# Reduce health
-	health -= damage_to_take
-	
-	if health > 0.0:
-		return
-	
-	# Kill slime
-	queue_free()
-
 
 ## Generates a [Vector2] in a random direction from the current position within
 ## the specified distance bounds (inclusive).
@@ -177,3 +157,11 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		
 		# Stop idle movement
 		_idle_movement_timer.stop()
+
+func damaged_sequence():
+	#damage animation
+	pass
+
+func suicide():
+	#death animation
+	queue_free()

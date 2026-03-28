@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://uyl0igpux7sm" path="res://enemies/slime_enemy.gd" id="1_lwubp"]
 [ext_resource type="Texture2D" uid="uid://dq3avqf8vlk6r" path="res://assets/temporary-tiles/programmer_art-objects.png" id="2_ysf2m"]
+[ext_resource type="PackedScene" uid="uid://c7fw2aq587t44" path="res://enemies/damage_component.tscn" id="3_12qxq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_12qxq"]
 atlas = ExtResource("2_ysf2m")
@@ -77,6 +78,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yr4wy"]
 size = Vector2(14, 12)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_12qxq"]
+radius = 50.0
+
 [node name="SlimeEnemy" type="CharacterBody2D" unique_id=538334106]
 motion_mode = 1
 script = ExtResource("1_lwubp")
@@ -95,6 +99,14 @@ animation = &"down"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=561916679]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_yr4wy")
+
+[node name="DamageComponent" parent="." unique_id=1495931984 instance=ExtResource("3_12qxq")]
+health = 40.0
+
+[node name="ChaseArea" type="Area2D" parent="." unique_id=1294927946]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseArea" unique_id=1944958268]
+shape = SubResource("CircleShape2D_12qxq")
 
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
 [connection signal="timeout" from="IdleMovementTimer" to="." method="_on_idle_movement_timer_timeout"]

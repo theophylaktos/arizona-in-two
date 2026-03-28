@@ -1,18 +1,18 @@
 extends Node
-@export var health: float = 100.0
 
-func accept_bullet_(bullet: Node):
+class_name DamageComponent
+
+@export var health: float = 100.0
+@onready var parent = get_parent()
+
+func accept_bullet_(bullet: Bullet):
 	var damage = bullet.damage #exported damage
 	var effects = bullet.effects #exported effects (string array)
+	#do certain actions based on the effects here
+	take_damage(damage)
 
 func take_damage(damage: float):
-	health = health - damage #take damage
+	health -= damage #take damage
 	if(health <= 0):
-		die()
-	var parent = get_parent() # call parent _damaged_sequence()
+		parent.suicide()
 	parent.damaged_sequence()
-
-func die():
-	pass
-	var parent = get_parent() # call parent _suicide() method
-	parent.suicide()

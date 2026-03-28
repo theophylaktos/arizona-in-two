@@ -7,9 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://ukvstgcvpp0c" path="res://powerups/sped_boost/speed_boost.tscn" id="5_3wy1v"]
 [ext_resource type="PackedScene" uid="uid://b1npi0iamldqa" path="res://powerups/bullet_bounce/bullet_bounce.tscn" id="6_kfbq2"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwkvk"]
-size = Vector2(52, 52)
-
 [node name="Main" type="Node2D" unique_id=1701778157]
 
 [node name="ZoneManager" type="Node2D" parent="." unique_id=1871549057]
@@ -25,14 +22,8 @@ position = Vector2(320, 328)
 position_smoothing_enabled = true
 position_smoothing_speed = 4.0
 
-[node name="SlimeEnemy" parent="." unique_id=538334106 node_paths=PackedStringArray("chase_area") instance=ExtResource("3_xwkvk")]
+[node name="SlimeEnemy" parent="." unique_id=538334106 instance=ExtResource("3_xwkvk")]
 position = Vector2(317, 198)
-chase_area = NodePath("Area2D")
-
-[node name="Area2D" type="Area2D" parent="SlimeEnemy" unique_id=1734344351]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SlimeEnemy/Area2D" unique_id=1337157882]
-shape = SubResource("RectangleShape2D_xwkvk")
 
 [node name="rapid_fire_pickup_range" parent="." unique_id=1345856180 instance=ExtResource("4_c651c")]
 position = Vector2(338, 241)

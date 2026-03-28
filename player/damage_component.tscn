@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://64dyavvcsnxe"]
-
-[ext_resource type="Script" uid="uid://drr6kmaw6ps8o" path="res://enemies/damage_component.gd" id="1_bii67"]
-
-[node name="Node" type="Node"]
-script = ExtResource("1_bii67")

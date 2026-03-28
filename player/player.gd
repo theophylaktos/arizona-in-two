@@ -14,6 +14,9 @@ var time_since_last_shot = 0
 var bounce_powerup = false
 
 var shotgun_powerup = false
+
+var damage : float = 5.0
+
 const SHOTGUN_SPREAD = PI/4 # spread per shot
 
 
@@ -82,22 +85,27 @@ func shoot(delta):
 		
 		time_since_last_shot = 0
 		
-		var instance = BULLET.instantiate()
-		get_parent().add_child(instance)
-		
+		var bullet1 : Bullet = BULLET.instantiate()
 		# sets bullet direction
-		instance.direction = inputDir
-		instance.position = position
+		bullet1.damage = damage
+		bullet1.direction = inputDir
+		bullet1.position = position
+		bullet1.excluded_nodes = [self]
 		if bounce_powerup:
-			instance.bulletBounce = true
-	
+			bullet1.bulletBounce = true
+		get_parent().add_child(bullet1)
+		
 		if shotgun_powerup:
-			var bullet2 = BULLET.instantiate()
-			var bullet3 = BULLET.instantiate()
+			var bullet2 : Bullet = BULLET.instantiate()
+			var bullet3 : Bullet = BULLET.instantiate()
+			bullet2.damage = damage
+			bullet3.damage = damage
 			bullet2.direction = inputDir.rotated(SHOTGUN_SPREAD)
 			bullet3.direction = inputDir.rotated(-SHOTGUN_SPREAD)
 			bullet2.position = position
 			bullet3.position = position
+			bullet2.excluded_nodes = [self]
+			bullet3.excluded_nodes = [self]
 			if bounce_powerup:
 				bullet2.bulletBounce = true
 				bullet3.bulletBounce = true

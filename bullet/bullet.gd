@@ -1,11 +1,16 @@
 extends Area2D
 
+class_name Bullet
+
 @export var damage = 1 #Bullet's damage
 @export var effects = ["fire","ice"] #Bullet's effects
 
 @export var direction = Vector2() # bullet direction of travel
 
 @export var bulletBounce = false
+
+#Certain node(s) should be excluded from bullet detection
+@export var excluded_nodes : Array[Node2D]
 
 var speed = 128 #The speed of the bullet
 
@@ -19,7 +24,16 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	call_deferred("queue_free")
 
 func _on_body_entered(body: Node2D) -> void:
-	if body.name != "Player" and bulletBounce == true:
+	#Check for excluded Nodes
+	#only works as a for loop? DEBUG later
+	if body in excluded_nodes:
+		return
+	var damage_component : DamageComponent = body.find_child("DamageComponent")
+	if damage_component:
+		damage_component.accept_bullet_(self)
+		suicide()
+		return
+	if bulletBounce == true:
 		var angle: int = int(rad_to_deg(body.get_angle_to(direction)))
 		if angle == 135:
 			if $CollisionShape2D/Left.is_colliding():
@@ -47,4 +61,7 @@ func _on_body_entered(body: Node2D) -> void:
 		if maxBounceCount < bounceCount:
 			call_deferred("queue_free")
 		await get_tree().create_timer(0.05).timeout
-		
+
+func suicide():
+	#explosions or smth if needed
+	queue_free()
